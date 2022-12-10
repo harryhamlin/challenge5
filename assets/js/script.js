@@ -2,6 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+  let dateDisplay = $("#todays-date");
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -19,5 +20,15 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  // TODO: Add code to display the current date in the header of the page.
+  
+  
+  // dateDisplayFx displays the time once per second and displays it within the element tagged todays-date. dateDisplay.text is set to current time and date on load for a cleaner look but is replaced by the dateDisplayFx function to account for time
+  dateDisplay.text(dayjs().format('MMM DD, YYYY, h:mm:ss a'))
+  function dateDisplayFx() {
+    setInterval(function () {
+      dayjs();
+      dateDisplay.text(dayjs().format('MMM DD, YYYY, h:mm:ss a'));
+    }, 1000)
+  }
+  dateDisplayFx();
 });
