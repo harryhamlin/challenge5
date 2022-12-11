@@ -1,10 +1,9 @@
 $(function () {
-  let dateDisplay = $('#todays-date');
-  let infoObject;
-  let infoArray = [];
+  let infoArray;
 
   // dateDisplayFx displays the time once per second and displays it within the element tagged todays-date. dateDisplay.text is set to current time and date on load for a cleaner look but is replaced by the dateDisplayFx function to account for time
   function dateDisplayFx() {
+    let dateDisplay = $('#todays-date');
     dateDisplay.text(dayjs().format('MMM DD, YYYY, h:mm:ss a'))
     setInterval(function () {
       dayjs();
@@ -57,7 +56,6 @@ $(function () {
   // this pullLocalArray pulls the locally stored array of saved hourly text values. this function executes both on the user clicking save and the page loading
   function pullLocalArray() {
     infoArray = JSON.parse(localStorage.getItem("info-array"));
-    console.log(infoArray);
   }
 
   // this replaceDuplicates function checks the array that's just been stored locally for text that's already been stored for a given hour, and if so, it replaces the previously stored text at that hour with new text
@@ -65,9 +63,8 @@ $(function () {
     if (infoArray === null) {
       infoArray = [];
       infoArray.push(infoObject);
-      console.log('nullpush')
     } else {
-      console.log('arraypush');
+
       let duplicateTest = true;
       for (let i = 0; i < infoArray.length; i++) {
         if (infoObject.hourid === infoArray[i].hourid) {
@@ -83,15 +80,16 @@ $(function () {
 
   // this printArray function prints the text value in each of the objects in the pulled array. this function executes both when the save button is clicked as well as on page load 
   function printArray() {
-    for (let i = 0; i < infoArray.length; i++) {
-      let q = '#text-area-' + infoArray[i].hourid;
-      $(q).val(infoArray[i].text)
+    if (infoArray !== null) {
+      for (let i = 0; i < infoArray.length; i++) {
+        let q = '#text-area-' + infoArray[i].hourid;
+        $(q).val(infoArray[i].text)
+      }
     }
   }
 
   // this saveLocally function stores the updated array from the replaceDuplicates function
   function saveLocally() {
-    console.log("savedlocally")
     localStorage.setItem("info-array", JSON.stringify(infoArray));
   }
 
