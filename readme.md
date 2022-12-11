@@ -2,36 +2,32 @@
 
 ## Introduction
 
-The purpose of this challenge was to familiarize me with the use of APIs and DOM manipulation through the use of javaScript.
+The purpose of this challenge was to familiarize me with jquery and bootstrap, and continue to practice using JavaScript effectively.
 
 ## Techniques Used
 
-I employed the use of a multitude of document methods, including query selectors, create elements, append elements, and others, and employed a number of javascript methods, including timer intervals, local storage, and others.
+I employed the use of a multitude of document methods via jquery, including query selectors, create elements, append elements, and others, and employed a number of JavaScript methods, including timer intervals, local storage, and others.
 
 ## Examples of Use
 
-Upon load, users are presented with a blank game interface and a start button:
+Upon load, users are presented with a header that includes the date and time along with 24 time slots, one for each hour. Any previously saved schedule items would load with the page:
 
-<img src="assets/images/onopen.jpg"/>
+<img src="assets/images/dateloadout.jpg"/>
 
-User's are presended with a descending timer and a series of multiple choice questions to answer:
+The current hour is highlighted in red, with past hours grey, and future hours green:
 
-<img src="assets/images/properfunction.jpg"/>
+<img src="assets/images/onload.jpg"/>
 
-Should the user answer the question wrong, their selected answer is highlighed in red, the correct answer highlighted in green, and 5 seconds are subtracted from the clock before the next question is presented:
+Each time the user saves an event, they're stored locally in an array:
 
-<img src="assets/images/incorrectanswer.jpg"/>
+<img src="assets/images/storagedemo.jpg"/>
 
-If the user answers a question correctly, their answer is highlighted in green and the next question is presented.
+If the user needs to replace a schedule item or delete a scheduled item, it gets replaced in the locally stored array:
 
-At the end of the game (if time runs out or all questions have been attempted), users are presented with their score and an input through which they can submit their scores to be stored locally on their computer:
+<img src="assets/images/replacedemo.jpg"/>
 
-<img src="assets/images/scoresubmit.jpg"/>
-
-After submission, the user is presented with the highscores:
-
-<img src="assets/images/hiscorelist.jpg"/>
+Any previously stored schedule items are displayed on page load.
 
 ## Link to Deployed Application
 
-<a href="https://harryhamlin.github.io/javascriptquiz/">https://harryhamlin.github.io/javascriptquiz/</a>
+<a href="https://harryhamlin.github.io/schedulingapp/">https://harryhamlin.github.io/schedulingapp/</a>
