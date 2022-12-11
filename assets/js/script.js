@@ -1,8 +1,7 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 $(function () {
   let dateDisplay = $('#todays-date');
+  let infoObject;
+  let infoArray = [];
 
   // dateDisplayFx displays the time once per second and displays it within the element tagged todays-date. dateDisplay.text is set to current time and date on load for a cleaner look but is replaced by the dateDisplayFx function to account for time
   function dateDisplayFx() {
@@ -26,12 +25,12 @@ $(function () {
       function checkIfPPF() {
         if (i < currentHour) {
           return 'past';
-        } else 
-        if (i === currentHour) {
-          return 'present';
-        } else {
-          return 'future';
-        }
+        } else
+          if (i === currentHour) {
+            return 'present';
+          } else {
+            return 'future';
+          }
       }
 
       // a series of if statements accounting for AM v PM, hour 12 v not hour 12
@@ -55,28 +54,68 @@ $(function () {
     }
   }
 
-  $('#main').on('click',function (event) {
+  // this pullLocalArray pulls the locally stored array of saved hourly text values
+  function pullLocalArray() {
+    infoArray = JSON.parse(localStorage.getItem("info-array"));
+    console.log(infoArray);
+  }
+
+  // this replaceDuplicates function checks the array that's just been stored locally for text that's already been stored for a given hour, and if so, it replaces the previously stored text at that hour with new text
+  function replaceDuplicates(infoObject) {
+    if (infoArray === null) {
+      infoArray = [];
+      infoArray.push(infoObject);
+      console.log('nullpush')
+    } else {
+      console.log('arraypush');
+      let duplicateTest = true;
+      for (let i = 0; i < infoArray.length; i++) {
+        if (infoObject.hourid === infoArray[i].hourid) {
+          infoArray[i].text = infoObject.text;
+          duplicateTest = false;
+        }
+      }
+      if (duplicateTest) {
+        infoArray.push(infoObject);
+      }
+    }
+  }
+
+  function printArray() {
+    for (let i = 0; i < infoArray.length; i++) {
+      let q = '#text-area-' + infoArray[i].hourid;
+      $(q).val(infoArray[i].text)
+    }
+  }
+
+  // this saveLocally function stores the updated array from the replaceDuplicates function
+  function saveLocally() {
+    console.log("savedlocally")
+    localStorage.setItem("info-array", JSON.stringify(infoArray));
+  }
+
+  // this event listener listens to the container element with the id 'main' for clicks, and selects those specific to the save buttons and targets the relevant text area and executes the saveLocally function
+  $('#main').on('click', function (event) {
     let userClick = event.target.nodeName;
     if (userClick === 'BUTTON' || userClick === 'I') {
       let idNumberConcat = '#text-area-' + event.target.id;
-      let textContent = $(idNumberConcat).val();
-      
+      let infoObject = {
+        hourid: event.target.id,
+        text: $(idNumberConcat).val().trim()
+      }
+      pullLocalArray();
+      replaceDuplicates(infoObject);
+      printArray();
+      saveLocally();
     }
   })
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
+  // todo stop the event listener from executing the function if nothing has been put in the text box
 
 
 
   dateDisplayFx();
   createTimeSlotDisplay();
+  pullLocalArray();
+  printArray()
 });
