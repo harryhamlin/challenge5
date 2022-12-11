@@ -54,7 +54,7 @@ $(function () {
     }
   }
 
-  // this pullLocalArray pulls the locally stored array of saved hourly text values
+  // this pullLocalArray pulls the locally stored array of saved hourly text values. this function executes both on the user clicking save and the page loading
   function pullLocalArray() {
     infoArray = JSON.parse(localStorage.getItem("info-array"));
     console.log(infoArray);
@@ -81,6 +81,7 @@ $(function () {
     }
   }
 
+  // this printArray function prints the text value in each of the objects in the pulled array. this function executes both when the save button is clicked as well as on page load 
   function printArray() {
     for (let i = 0; i < infoArray.length; i++) {
       let q = '#text-area-' + infoArray[i].hourid;
@@ -110,10 +111,7 @@ $(function () {
     }
   })
 
-  // todo stop the event listener from executing the function if nothing has been put in the text box
-
-
-
+  // these functions execute on page load
   dateDisplayFx();
   createTimeSlotDisplay();
   pullLocalArray();
